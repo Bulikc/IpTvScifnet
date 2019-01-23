@@ -218,7 +218,9 @@ public class MainActivity extends AppCompatActivity {
         //Initialize simpleExoPlayerView
         SimpleExoPlayerView simpleExoPlayerView = findViewById(R.id.exoplayer);
         simpleExoPlayerView.setPlayer(player);
-
+        simpleExoPlayerView.setUseController(false);
+        simpleExoPlayerView.hideController();
+        simpleExoPlayerView.
         // Produces DataSource instances through which media data is loaded.
         DataSource.Factory dataSourceFactory =
                 new DefaultDataSourceFactory(this, Util.getUserAgent(this, "CloudinaryExoplayer"));
@@ -233,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Prepare the player with the source.
         player.prepare(videoSource);
-
+        player.setPlayWhenReady(true);
     }
 
     class Person {
