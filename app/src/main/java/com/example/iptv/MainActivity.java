@@ -56,6 +56,25 @@ import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
 import com.google.android.exoplayer2.util.Util;
 */
+
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
+import com.google.android.exoplayer2.extractor.ExtractorsFactory;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+import com.google.android.exoplayer2.upstream.BandwidthMeter;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
+
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -85,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
   //  PlayerView playerView;
    // SimpleExoPlayer simpleExoPlayer;
     //
+
     private SurfaceView surface;
 
   //  private ExoPlayer player;
@@ -103,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initializePlayer();
        // playerView=findViewById(R.id.vid);
        // DefaultTrackSelector trackSelector = new DefaultTrackSelector();
 
@@ -182,6 +203,38 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    private void initializePlayer(){
+        // Create a default TrackSelector
+        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+        TrackSelection.Factory videoTrackSelectionFactory =
+                new AdaptiveTrackSelection.Factory(bandwidthMeter);
+        TrackSelector trackSelector =
+                new DefaultTrackSelector(videoTrackSelectionFactory);
+
+        //Initialize the player
+        SimpleExoPlayer player = ExoPlayerFactory.newSimpleInstance(this, trackSelector);
+
+        //Initialize simpleExoPlayerView
+        SimpleExoPlayerView simpleExoPlayerView = findViewById(R.id.exoplayer);
+        simpleExoPlayerView.setPlayer(player);
+
+        // Produces DataSource instances through which media data is loaded.
+        DataSource.Factory dataSourceFactory =
+                new DefaultDataSourceFactory(this, Util.getUserAgent(this, "CloudinaryExoplayer"));
+
+        // Produces Extractor instances for parsing the media data.
+        ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+
+        // This is the MediaSource representing the media to be played.
+        Uri videoUri = Uri.parse("http://185.70.15.1:27999/stream?id=3508");
+        MediaSource videoSource = new ExtractorMediaSource(videoUri,
+                dataSourceFactory, extractorsFactory, null, null);
+
+        // Prepare the player with the source.
+        player.prepare(videoSource);
+
+    }
 
     class Person {
         String name;
@@ -312,21 +365,13 @@ public class MainActivity extends AppCompatActivity {
         // String url="http://162.243.116.249/orsha/orsha.xml";
         list = (RecyclerView) findViewById(R.id.list);
         Log.d("44R","8"+" "+M3U8Playlist.chanelList.size());
-        VideoView vidView = (VideoView)findViewById(R.id.myVideo);
-        String vidAddress = "http://185.70.15.1:27999/stream?id=3577";
+
+        String vidAddress = "http://185.70.15.1:27999/stream?id=3491";
         //http://185.70.15.1:27999/play
-        //
-        final String DATA_SD = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
-                + "/1.mp4";
-
-       Uri vidUri = Uri.parse("https://code.tutsplus.com/ru/tutorials/streaming-video-in-android-apps--cms-19888");
-       // Uri vidUri = Uri.parse(" ftp://87.252.238.212:52525/1/rew.mp4");
-        vidView.setVideoURI(vidUri);
+      // exoPlayer = ExoPlayer.Factory.newInstance(2);
+      //  exoPlayer.
 
 
-        //downloadUsingStream(url);
-        // vidView.setVideoScalingMode(android.media.MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT);
-         vidView.start();
         Log.d("44R","8"+" "+M3U8Playlist.chanelList.size());
 
        rv=(RecyclerView)findViewById(R.id.rv);

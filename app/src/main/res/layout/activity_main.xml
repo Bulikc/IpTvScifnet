@@ -53,20 +53,10 @@
             android:orientation="vertical"
             >
 
-            <VideoView
-                android:id="@+id/myVideo"
+            <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+                android:id="@+id/exoplayer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-
-
-
-                android:layout_marginRight="50dp" />
-
+                android:layout_height="wrap_content"/>
         </RelativeLayout>
 
 
