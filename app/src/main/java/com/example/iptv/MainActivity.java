@@ -2,6 +2,7 @@ package com.example.iptv;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //  String stream="android.resource://"+getPackageName()+"/"+R.raw.test;
+    Drawable drawable;
     MediaPlayer mediaPlayer;
     boolean prepared=false;
     boolean started=false;
@@ -94,8 +96,9 @@ public class MainActivity extends AppCompatActivity {
     private static final int BUFFER_SEGMENT_SIZE = 64 * 1024;
     private static final int MAIN_BUFFER_SEGMENTS = 254;
     public static final int TYPE_VIDEO = 0;
-
-
+    RecyclerView rv;
+    RVAdapter adapter;
+    View Oldview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -218,6 +221,18 @@ public class MainActivity extends AppCompatActivity {
     private static List<String> li;
 
 
+    public void selectedCnanel(View view,int position){
+        drawable=view.getBackground();
+        view.setBackgroundColor(Color.YELLOW);
+        int indexCount=adapter.getItemCount();
+        Log.d("ddddd",adapter.getItemCount()+"");
+
+        if(Oldview!=null)
+        Oldview.setBackground(drawable);
+        id=position;
+        Oldview=view;
+    }
+
 
     private static  InputStream downloadUsingStream(String url) {
 
@@ -314,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
          vidView.start();
         Log.d("44R","8"+" "+M3U8Playlist.chanelList.size());
 
-        RecyclerView rv=(RecyclerView)findViewById(R.id.rv);
+       rv=(RecyclerView)findViewById(R.id.rv);
         //recyclerView1.add
 
 
@@ -331,33 +346,34 @@ public class MainActivity extends AppCompatActivity {
                             case 0:  adapter = new ListAdapter(List1.l);
                                 list.setAdapter(adapter);
                                 list.scrollToPosition(7);
-                                id=0;
-                              //  Log.d("dddd",view.getBackground());
-                                view.setBackgroundColor(Color.CYAN);
+
+
+                                selectedCnanel(view,position);
+
+
                                // view.setBackgroundColor(14);
                                 break;
                             case 1:  adapter = new ListAdapter(List1.l2);
                                 list.setAdapter(adapter);
-                                id=1;
-                                view.setBackgroundColor(Color.CYAN);
+
+                                selectedCnanel(view,position);
+
                                 break;
                             case 2:  adapter = new ListAdapter(List1.l3);
                                 list.setAdapter(adapter);
-                                id=2;
-                                view.setBackgroundColor(Color.CYAN);
+                                selectedCnanel(view,position);
                                 break;
                             case 3:  adapter = new ListAdapter(List1.l4);
                                 list.setAdapter(adapter);
-                                id=3;
-                                view.setBackgroundColor(Color.CYAN);
+                                selectedCnanel(view,position);
                                 break;
                             case 4:  adapter = new ListAdapter(List1.l5);
                                 list.setAdapter(adapter);
-                                id=4;
+                                selectedCnanel(view,position);
                                 break;
                             case 5:  adapter = new ListAdapter(List1.l6);
                                 list.setAdapter(adapter);
-                                id=5;
+                                selectedCnanel(view,position);
                                 break;
 
                         }}else{
@@ -409,7 +425,7 @@ public class MainActivity extends AppCompatActivity {
             chanel.add(new Chanel("ОНТ","10-00","peredacha",R.drawable.ontn));
 
 
-            RVAdapter adapter = new RVAdapter(chanel);
+             adapter = new RVAdapter(chanel);
             rv.setAdapter(adapter);
         } catch(Exception e){
             Log.d("avi",e.getMessage());
@@ -455,13 +471,13 @@ public class MainActivity extends AppCompatActivity {
             list.setLayoutManager(llm);
             list.setHasFixedSize(true);
 
-            chanel.add(new Chanel("Беларусь-1","10-00","peredacha",R.drawable.bt1n));
+           /* chanel.add(new Chanel("Беларусь-1","10-00","peredacha",R.drawable.bt1n));
             chanel.add(new Chanel("Беларусь-2","10-00","peredacha",R.drawable.bt2n));
             chanel.add(new Chanel("СТВ","10-00","peredacha",R.drawable.ctv2018));
             chanel.add(new Chanel("Мир","10-00","peredacha",R.drawable.mirtvn));
             chanel.add(new Chanel("НТВ","10-00","peredacha",R.drawable.ntvbeln));
             chanel.add(new Chanel("ОНТ","10-00","peredacha",R.drawable.ontn));
-
+*/
 /*
             List1.l=new ArrayList<String>();
             List1.l2=new ArrayList<String>();
